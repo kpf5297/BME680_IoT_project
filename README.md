@@ -21,7 +21,7 @@ The project is divided into three main parts:
 
 - Arduino IDE
 - BME680 sensor
-- Arduino board (e.g., Arduino RP2040 Connect)
+- Arduino board (e.g., Arduino RP2040 Connect) - https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json (board manager url)
 - Libraries: `Wire.h`, `WiFiNINA.h`, `ArduinoHttpClient.h`, `bme68xLibrary.h`
 
 ### Server
