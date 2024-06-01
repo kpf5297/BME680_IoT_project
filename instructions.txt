@@ -1,0 +1,39 @@
+Instructions
+
+Create the database and table:
+
+Save the setup_database.sql file.
+Open your MySQL client (e.g., MySQL Workbench, command line).
+
+
+
+
+Run the SQL script using the following command:
+sql
+Copy code
+SOURCE path_to_your_setup_database.sql;
+This will create the SensorData database and the BME680Readings table.
+
+
+
+
+Set up the Flask server:
+
+Save the app.py file.
+
+
+
+Install required Python packages:
+sh
+Copy code
+pip install Flask flask-cors mysql-connector-python
+Run the Flask server:
+sh
+Copy code
+python app.py
+
+
+
+Update sensitive information:
+
+Replace your_username and your_password in app.py with your actual MySQL username and password.
