@@ -1,3 +1,12 @@
+/*
+ * BME68xSensor.h
+ * 
+ * Description: Header file for the BME68xSensor class which manages interaction with the BME680 sensor.
+ * 
+ * Author: Kevin Fox
+ * Date: 2024-06-01
+ */
+
 #ifndef BME68XSENSOR_H
 #define BME68XSENSOR_H
 

@@ -1,54 +1,46 @@
-#include "BME68xSensor.h"
+/*
+ * WiFiConnection.h
+ * 
+ * Description: Header file for the WiFiConnection class which manages WiFi connectivity.
+ * 
+ * Author: Kevin Fox
+ * Date: 2024-06-01
+ */
 
-BME68xSensor::BME68xSensor(uint8_t i2cAddress) : i2cAddress(i2cAddress) {}
+#ifndef WIFICONNECTION_H
+#define WIFICONNECTION_H
 
-bool BME68xSensor::begin() {
-    Wire.begin();
-    bme.begin(i2cAddress, Wire);
+#include <WiFiNINA.h>
+#include <kvstore_global_api.h>
+#include <mbed_error.h>
 
-    int status = bme.checkStatus();
-    if (status == BME68X_ERROR) {
-        Serial.println("Sensor error: " + bme.statusString());
-        return false;
-    } else if (status == BME68X_WARNING) {
-        Serial.println("Sensor Warning: " + bme.statusString());
-    } else {
-        Serial.println("Sensor initialized successfully.");
+class WiFiConnection {
+public:
+    static WiFiConnection& getInstance() {
+        static WiFiConnection instance;
+        return instance;
     }
-    
-    bme.setTPH();
-    bme.setHeaterProf(300, 100);
-    
-    return true;
-}
 
-void BME68xSensor::readSensor() {
-    bme.setOpMode(BME68X_FORCED_MODE);
-    delayMicroseconds(bme.getMeasDur());
+    void setup();
+    void connectToWiFi();
+    bool isConnected();
+    String getServerIPAddress();
 
-    if (bme.fetchData()) {
-        bme.getData(data);
-    } else {
-        Serial.println("Failed to fetch data from BME68x sensor");
-    }
-}
+private:
+    WiFiConnection() {}
+    WiFiConnection(const WiFiConnection&) = delete;
+    WiFiConnection& operator=(const WiFiConnection&) = delete;
 
-float BME68xSensor::getTemperature() const {
-    return data.temperature;
-}
+    void promptForNetworkSelection();
+    void scanNetworks();
+    int selectNetwork();
+    void clearSerialBuffer();
+    String getPassword();
+    String getServerIP();
+    void saveNetworkCredentials(int networkIndex, const String& password, const String& serverIP);
+    void connectToSavedNetwork();
+    void connect(const char* ssid, const uint8_t* bssid, const char* password);
+    const char* getEncryptionType(int thisType);
+};
 
-float BME68xSensor::getPressure() const {
-    return data.pressure;
-}
-
-float BME68xSensor::getHumidity() const {
-    return data.humidity;
-}
-
-float BME68xSensor::getGasResistance() const {
-    return data.gas_resistance;
-}
-
-String BME68xSensor::getStatusString() {
-    return bme.statusString();
-}
+#endif // WIFICONNECTION_H
